@@ -28,8 +28,10 @@ controls.maxPolarAngle = Math.PI / 2.7;
 controls.autoRotateSpeed = 1.7;
 
 //Helpers
+const grid = new THREE.Group();    //reason for adding gridhelper to a group is to stop it from turning translucent, as it is not a surface child in scene anymore
 const gridHelper = new THREE.GridHelper(200, 50);
-scene.add(gridHelper);
+grid.add(gridHelper);
+scene.add(grid);
 scene.background = new THREE.Color(0xe9e9e9ee);
 const light = new THREE.AmbientLight(0x404040);
 scene.add(light);
@@ -38,9 +40,6 @@ scene.add(light);
 //Raycasting
 const mouse = new THREE.Vector2
 const raycaster = new THREE.Raycaster();
-
-
-//var canvas = document.getElementById('bg')
 
 const rect = renderer.domElement.getBoundingClientRect();
 var ray_width = rect.width;
@@ -62,6 +61,7 @@ const geometry = new THREE.SphereGeometry(6, 25, 20);
 const material = new THREE.MeshBasicMaterial({ map: loader });
 const sphere = new THREE.Mesh(geometry, material);
 sphere.position.set(0, 10, 0);
+sphere.callback = function () { check_sphere(); }
 scene.add(sphere);
 
 //dna
@@ -71,6 +71,7 @@ const donut_shape = new THREE.TorusGeometry(5, 2, 14, 20);
 const donut_flavour = new THREE.MeshBasicMaterial({ color: 0xFC4343, wireframe: true });
 const donut = new THREE.Mesh(donut_shape, donut_flavour);
 donut.position.set(18, 10, 0);
+donut.callback = function () { check_donut(); }
 scene.add(donut);
 
 //cube
@@ -80,6 +81,7 @@ const texture_2 = new THREE.TextureLoader().load('gmail.png');
 const box_faces = new THREE.MeshBasicMaterial({ color: 0xf1f1f1, map: texture_2 });
 const cube = new THREE.Mesh(box_shape, box_faces);
 cube.position.set(-18, 10, 0);
+cube.callback = function () { check_cube(); }
 scene.add(cube);
 
 
@@ -116,12 +118,22 @@ function render() {
 //need to fix window for ray casting to be done properly. 
 //https://stackoverflow.com/questions/4032179/how-do-i-get-the-width-and-height-of-a-html5-canvas
 
-
-/* function cube_overlay() {
+/* 
+function cube_overlay() {
     document.getElementById("about_me_overlay").style.display = "block";
 } */
 
+function check_cube() {
+    console.log("its cube");
+}
 
+function check_sphere() {
+    console.log("it's sphere");
+}
+
+function check_donut() {
+    console.log("it's donut");
+}
 //attributions 
 //gmail icon <a href="https://www.flaticon.com/free-icons/gmail" title="gmail icons">Gmail icons created by Pixel perfect - Flaticon</a>
 //phone icon <a href="https://www.flaticon.com/free-icons/phone" title="phone icons">Phone icons created by Pixel perfect - Flaticon</a>
@@ -134,7 +146,9 @@ function hoverObjects() {
         newMaterial.transparent = true;
         newMaterial.opacity = 0.5;
         intersects[0].object.material = newMaterial;
+        intersects[0].object.callback();
         console.log("intersected");
+
     }
 }
 function resetMaterial() {
