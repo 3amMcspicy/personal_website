@@ -40,9 +40,16 @@ const mouse = new THREE.Vector2
 const raycaster = new THREE.Raycaster();
 
 
+//var canvas = document.getElementById('bg')
+
+const rect = renderer.domElement.getBoundingClientRect();
+var ray_width = rect.width;
+var ray_height = rect.height;
+
+
 function onMouseMove(event) {
-    mouse.x = event.clientX / (window.innerWidth) * 2 - 1;
-    mouse.y = - event.clientY / (window.innerHeight) * 2 + 1;
+    mouse.x = (event.clientX - rect.left) / (ray_width) * 2 - 1;
+    mouse.y = - (event.clientY - rect.top) / (ray_height) * 2 + 1;
 }
 
 
