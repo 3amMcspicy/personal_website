@@ -14,7 +14,7 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 const renderer = new THREE.WebGLRenderer({ antialias: true, canvas: document.querySelector('#bg') });
 
 renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth, window.innerHeight * 0.9);
+renderer.setSize(window.innerWidth, window.innerHeight);
 
 camera.position.setZ(19); //24
 camera.position.setX(7);
@@ -125,23 +125,27 @@ function render() {
 }
 
 function nothing() {
-    document.getElementById("about_me_overlay").style.display = "none";
+    /* document.getElementById("about_me_overlay").style.display = "none";
+    document.getElementById("contact_overlay").style.display = "none";
+    document.getElementById("blender_overlay").style.display = "none"; */
     console.log("nothing");
 }
 
 
 function cube_overlay() {
-    document.getElementById("about_me_overlay").style.display = "block";
+    document.getElementById("contact_overlay").style.display = "block";
     console.log("it's cube");
 }
 
 
 
 function check_donut() {
+    document.getElementById("blender_overlay").style.display = "block";
     console.log("it's donut");
 }
 
 function check_sphere() {
+    document.getElementById("about_me_overlay").style.display = "block";
     console.log("it's sphere");
 }
 //attributions 
@@ -167,4 +171,7 @@ function resetMaterial() {
             scene.children[i].material.opacity = 1.0;
         }
     }
+    document.getElementById("about_me_overlay").style.display = "none";
+    document.getElementById("contact_overlay").style.display = "none";
+    document.getElementById("blender_overlay").style.display = "none";
 }
