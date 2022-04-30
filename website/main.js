@@ -1,6 +1,8 @@
 import './style.css'
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { TextGeometry } from 'three';
+import { FontLoader } from 'three';
 
 //Assumed WebGL compatible 
 //Used Python server to test...
@@ -14,9 +16,9 @@ const renderer = new THREE.WebGLRenderer({ antialias: true, canvas: document.que
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight * 0.9);
 
-camera.position.setZ(24); //24
-camera.position.setX(0);
-camera.position.setY(9);
+camera.position.setZ(19); //24
+camera.position.setX(7);
+camera.position.setY(33); //9
 
 //Orbit controls and limitation on what users can do. 
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -30,6 +32,7 @@ controls.autoRotateSpeed = 1.7;
 //Helpers
 const grid = new THREE.Group();    //reason for adding gridhelper to a group is to stop it from turning translucent, as it is not a surface child in scene anymore
 const gridHelper = new THREE.GridHelper(200, 50);
+gridHelper.callback = function () { nothing(); }
 grid.add(gridHelper);
 scene.add(grid);
 scene.background = new THREE.Color(0xe9e9e9ee);
@@ -51,6 +54,12 @@ function onMouseMove(event) {
     mouse.y = - (event.clientY - rect.top) / (ray_height) * 2 + 1;
 }
 
+function onMouseClick(event) {
+    var isIntersected = raycaster.intersectObject(cube);
+    if (isIntersected) {
+        console.log('cube clicked');
+    }
+}
 
 const loader = new THREE.TextureLoader().load(
     '/murakami.jpg');
@@ -81,10 +90,10 @@ const texture_2 = new THREE.TextureLoader().load('gmail.png');
 const box_faces = new THREE.MeshBasicMaterial({ color: 0xf1f1f1, map: texture_2 });
 const cube = new THREE.Mesh(box_shape, box_faces);
 cube.position.set(-18, 10, 0);
-cube.callback = function () { check_cube(); }
+cube.callback = function () { cube_overlay(); }
 scene.add(cube);
 
-
+window.addEventListener('mouseclick', onMouseClick, false);
 window.addEventListener('mousemove', onMouseMove, false);
 animate();
 
@@ -110,29 +119,30 @@ function render() {
     //raycasting
     resetMaterial();
     hoverObjects();
-    //scene.add(new THREE.ArrowHelper(raycaster.ray.direction, raycaster.ray.origin, 300, 0xff0000));
+    //scene.add(new THREE.ArrowHelper(raycaster.ray.direction, raycaster.ray.origin, 300, 0xff0000)); just to see what raycaster is pointing at
 
     renderer.render(scene, camera);
 }
 
-//need to fix window for ray casting to be done properly. 
-//https://stackoverflow.com/questions/4032179/how-do-i-get-the-width-and-height-of-a-html5-canvas
+function nothing() {
+    document.getElementById("about_me_overlay").style.display = "none";
+    console.log("nothing");
+}
 
-/* 
+
 function cube_overlay() {
     document.getElementById("about_me_overlay").style.display = "block";
-} */
+    console.log("it's cube");
+}
 
-function check_cube() {
-    console.log("its cube");
+
+
+function check_donut() {
+    console.log("it's donut");
 }
 
 function check_sphere() {
     console.log("it's sphere");
-}
-
-function check_donut() {
-    console.log("it's donut");
 }
 //attributions 
 //gmail icon <a href="https://www.flaticon.com/free-icons/gmail" title="gmail icons">Gmail icons created by Pixel perfect - Flaticon</a>

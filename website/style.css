@@ -23,20 +23,23 @@ canvas {
     margin-right: 45%;
     margin-left: 1%;
 
-
 }
 
 body {
     background-color: #e9e9e9ee;
+    /*e9e9e9ee */
 }
 
 .top_Nav {
     color: black;
+    position: absolute;
+    width: 100%;
 
 }
 
 .links {
     display: inline-block;
+    position: relative;
 
 }
 
@@ -54,12 +57,20 @@ a:hover {
     color: inherit;
 }
 
-/* #about_me_overlay {
+#about_me_overlay {
     display: none;
-    width: 100%;
-    height: 100%;
-    background-color: beige;
+    width: 20%;
+    height: 10%;
+    /* background-color: beige; */
+    position: absolute;
+    top: 10%;
+    left: 40%;
+    font-size: 400%;
+
+
+
 }
+
 
 #contact_overlay {
     display: none;
@@ -68,6 +79,7 @@ a:hover {
     background-color: beige;
 }
 
+/*
 #blender_overlay {
     display: none;
     width: 100%;
