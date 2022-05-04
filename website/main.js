@@ -16,16 +16,16 @@ const renderer = new THREE.WebGLRenderer({ antialias: true, canvas: document.que
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 
-camera.position.setZ(19); //24
+camera.position.setZ(10); //24
 camera.position.setX(7);
-camera.position.setY(33); //9
+camera.position.setY(30); //9
 
 //Orbit controls and limitation on what users can do. 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.autoRotate = true;
 controls.autoRotateSpeed = 0.9;
-controls.enableZoom = false;
-controls.minPolarAngle = Math.PI / 3.7;
+//controls.enableZoom = false;
+controls.minPolarAngle = Math.PI / 3; // /3.7
 controls.maxPolarAngle = Math.PI / 2.7;
 controls.autoRotateSpeed = 1.7;
 
@@ -73,7 +73,6 @@ sphere.position.set(0, 10, 0);
 sphere.callback = function () { check_sphere(); }
 scene.add(sphere);
 
-//dna
 
 //torus for blender
 const donut_shape = new THREE.TorusGeometry(5, 2, 14, 20);
@@ -99,9 +98,6 @@ animate();
 
 function animate() {
     requestAnimationFrame(animate);
-
-    // sphere.rotation.y += 0.005;
-    // sphere.rotation.z += 0.001;
 
     donut.rotation.y += 0.002;
     donut.rotation.z += 0.003;
@@ -135,6 +131,7 @@ function nothing() {
 function cube_overlay() {
     document.getElementById("contact_overlay").style.display = "block";
     console.log("it's cube");
+
 }
 
 
